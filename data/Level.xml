@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Logic::CLevel>
+  <Logic::CEntity Name="Simon" PrototypeChain="PlayerCharacter">
+  <Logic::CLocationComponent x="1231.0" y="400.0" z="321.0">
+  </Logic::CLocationComponent>
+</Logic::CLevel>
+<Prototypes>
+  <Logic::CEntity Name="" PrototypeChain="Character">
+    
+  </Logic::CEntity>
+  <Logic::CEntity Name="Agent">
+    <Bitflow::CLocationComponent>
+    </Bitflow::CLocationComponent>
+    <Logic::CActionComponent>
+      <Logic::CActions>
+        <Logic::CAction Name="Idle" />
+      </Logic::CActions>
+    </Logic::CActionComponent>
+  </Logic::CEntity>
+</Prototypes>
