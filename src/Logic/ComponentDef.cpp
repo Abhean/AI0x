@@ -7,7 +7,6 @@
 
 using Foundation::operator "" _n;
 
-IMPLEMENT_POINTER_TYPE(Logic, SAux);
 IMPLEMENT_CLASS(Logic::CComponentDef, Foundation::CObject);
 IMPLEMENT_CLASS_EX(Logic, SAux, , 
 // CreateInstance                   
@@ -18,6 +17,10 @@ IMPLEMENT_CLASS_EX(Logic, SAux, ,
   _pClass_->AddVariable<float>("fVar"_n, offsetof(SAux, fVar));
   _pClass_->AddVariable<std::string>("sVar"_n, offsetof(SAux, sVar));
 });
+
+IMPLEMENT_POINTER_TYPE(Logic, SAux);
+IMPLEMENT_TYPE_CAST_NSPT_PT(Logic, SAux, void);
+IMPLEMENT_TYPE_CAST_PT_NSPT(void, Logic, SAux);
 
 namespace Logic
 {
@@ -32,22 +35,3 @@ void CComponentDef::Populate(Foundation::CClass* _pClass_)
 
 } // namespace Logic
 
-// @TODO[egarcia]: Remove.
-// namespace Foundation
-// {
-//   //----------------------------------------------
-//   template <>
-//   inline bool TypeCast<Serialization::xml_node_char*, Logic::SAux>(void const* _pSource, void* pTarget_)
-//   {  
-//     rapidxml::xml_node<>* const pxmlNode = *static_cast<rapidxml::xml_node<>* const*>(_pSource);
-//     Logic::SAux* pAux = static_cast<Logic::SAux*>(pTarget_);
-//     
-//     auto pxmlAttribute = pxmlNode->first_attribute();
-//     pxmlAttribute = pxmlAttribute->next_attribute();
-//     pAux->fVar = ::atof(pxmlAttribute->value());
-//     pxmlAttribute = pxmlAttribute->next_attribute();
-//     pAux->sVar = std::string { pxmlAttribute->value() };
-//   } 
-// }
-// 
-// IMPLEMENT_TYPE_CAST_NSPT_NST(Serialization, xml_node_char, Logic, SAux);

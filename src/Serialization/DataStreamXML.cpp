@@ -72,8 +72,12 @@ void CDataStreamXML::ReadVariablesFromXMLNode(rapidxml::xml_node<> const* _pXMLN
           {
             if (!pValuePtr)
             {
-              pValuePtr = pVariable->GetType().CreateInstance();
-              pPointerType->SetValue(pVarData, pValuePtr);
+              pValuePtr = pPointerType->GetPointedType().CreateInstance();
+              if (!pPointerType->SetValue(pVarData, pValuePtr))
+              {
+                delete pValuePtr;
+                pValuePtr = nullptr;
+              }
             }
             
             pValueType = &pPointerType->GetPointedType();
@@ -85,7 +89,7 @@ void CDataStreamXML::ReadVariablesFromXMLNode(rapidxml::xml_node<> const* _pXMLN
           pValuePtr = pVarData;
         }
 
-        assert(pValueType != nullptr);
+        assert(pValueType != nullptr && pValuePtr);
         ReadVariablesFromXMLNode(pVariableNode, *pValueType, pValuePtr);
       }
       else

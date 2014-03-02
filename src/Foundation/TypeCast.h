@@ -35,11 +35,27 @@ struct STypeCastEntry
 
 //----------------------------------------------
 template <typename TSource, typename TTarget>
-bool TypeCast(void const* _pSource, void* pTarget_)
+struct TypeCast
 {
-  *(static_cast<TTarget*>(pTarget_)) = *(static_cast<const TSource*>(_pSource));
-  return true;
-}
+  static bool Apply(void const* _pSource, void* pTarget_)
+  {
+    *(static_cast<TTarget*>(pTarget_)) = *(static_cast<const TSource*>(_pSource));
+    return true;
+  }
+};
+
+//----------------------------------------------
+template <typename TSource, typename TTarget>
+struct TypeCast<TSource*, TTarget*>
+{
+  static bool Apply(void const* _pSource, void* pTarget_)
+  {
+    *(static_cast<TTarget**>(pTarget_)) = static_cast<TTarget*>(*(static_cast<TTarget* const*>(_pSource)));
+    return true;
+  }
+};
+
+//----------------------------------------------
 
 } // namespace Foundation 
 
@@ -49,23 +65,29 @@ bool TypeCast(void const* _pSource, void* pTarget_)
 //----------------------------------------------
 
 #define IMPLEMENT_TYPE_CAST_NST_NST(SOURCE_NAMESPACE, SOURCE_TYPE, TARGET_NAMESPACE, TARGET_TYPE) \
-Foundation::STypeCastEntry TYPECAST_##SOURCE_NAMESPACE##_##SOURCE_TYPE_2_##TARGET_NAMESPACE##_##TARGET_TYPE(#SOURCE_NAMESPACE"::"#SOURCE_TYPE, #TARGET_NAMESPACE"::"#TARGET_TYPE, &Foundation::TypeCast<SOURCE_NAMESPACE::SOURCE_TYPE, TARGET_NAMESPACE::TARGET_TYPE>);
+Foundation::STypeCastEntry TYPECAST_##SOURCE_NAMESPACE##_##SOURCE_TYPE_2_##TARGET_NAMESPACE##_##TARGET_TYPE(#SOURCE_NAMESPACE"::"#SOURCE_TYPE, #TARGET_NAMESPACE"::"#TARGET_TYPE, &Foundation::TypeCast<SOURCE_NAMESPACE::SOURCE_TYPE, TARGET_NAMESPACE::TARGET_TYPE>::Apply);
 
 #define IMPLEMENT_TYPE_CAST_NST_NSPT(SOURCE_NAMESPACE, SOURCE_TYPE, TARGET_NAMESPACE, TARGET_TYPE) \
-Foundation::STypeCastEntry TYPECAST_##SOURCE_NAMESPACE##_##SOURCE_TYPE_2_##TARGET_NAMESPACE##_##TARGET_TYPE##_##PTR(#SOURCE_NAMESPACE"::"#SOURCE_TYPE, #TARGET_NAMESPACE"::"#TARGET_TYPE"*", &Foundation::TypeCast<SOURCE_NAMESPACE::SOURCE_TYPE, TARGET_NAMESPACE::TARGET_TYPE*>);
+Foundation::STypeCastEntry TYPECAST_##SOURCE_NAMESPACE##_##SOURCE_TYPE_2_##TARGET_NAMESPACE##_##TARGET_TYPE##_##PTR(#SOURCE_NAMESPACE"::"#SOURCE_TYPE, #TARGET_NAMESPACE"::"#TARGET_TYPE"*", &Foundation::TypeCast<SOURCE_NAMESPACE::SOURCE_TYPE, TARGET_NAMESPACE::TARGET_TYPE*>::Apply);
 
 #define IMPLEMENT_TYPE_CAST_NSPT_NST(SOURCE_NAMESPACE, SOURCE_TYPE, TARGET_NAMESPACE, TARGET_TYPE) \
-Foundation::STypeCastEntry TYPECAST_##SOURCE_NAMESPACE##_##SOURCE_TYPE_PTR_2_##TARGET_NAMESPACE##_##TARGET_TYPE(#SOURCE_NAMESPACE"::"#SOURCE_TYPE"*", #TARGET_NAMESPACE"::"#TARGET_TYPE, &Foundation::TypeCast<SOURCE_NAMESPACE::SOURCE_TYPE*, TARGET_NAMESPACE::TARGET_TYPE>);
+Foundation::STypeCastEntry TYPECAST_##SOURCE_NAMESPACE##_##SOURCE_TYPE_PTR_2_##TARGET_NAMESPACE##_##TARGET_TYPE(#SOURCE_NAMESPACE"::"#SOURCE_TYPE"*", #TARGET_NAMESPACE"::"#TARGET_TYPE, &Foundation::TypeCast<SOURCE_NAMESPACE::SOURCE_TYPE*, TARGET_NAMESPACE::TARGET_TYPE>::Apply);
+
+#define IMPLEMENT_TYPE_CAST_NSPT_PT(SOURCE_NAMESPACE, SOURCE_TYPE, TARGET_TYPE) \
+Foundation::STypeCastEntry TYPECAST_##SOURCE_NAMESPACE##_##SOURCE_TYPE##_PTR_2_##TARGET_TYPE##_PTR(#SOURCE_NAMESPACE"::"#SOURCE_TYPE"*", #TARGET_TYPE"*", &Foundation::TypeCast<SOURCE_NAMESPACE::SOURCE_TYPE*, TARGET_TYPE*>::Apply);
+
+#define IMPLEMENT_TYPE_CAST_PT_NSPT(SOURCE_TYPE, TARGET_NAMESPACE, TARGET_TYPE) \
+Foundation::STypeCastEntry TYPECAST_##SOURCE_TYPE##_PTR_2_##TARGET_NAMESPACE##_##TARGET_TYPE##_PTR(#SOURCE_TYPE"*", #TARGET_NAMESPACE"::"#TARGET_TYPE"*", &Foundation::TypeCast<SOURCE_TYPE*, TARGET_NAMESPACE::TARGET_TYPE*>::Apply);
+
 
 #define IMPLEMENT_TYPE_CAST_NST_T(SOURCE_NAMESPACE, SOURCE_TYPE, TARGET_TYPE) \
-Foundation::STypeCastEntry TYPECAST_##SOURCE_NAMESPACE##_##SOURCE_TYPE_2_##TARGET_TYPE(#SOURCE_NAMESPACE"::"#SOURCE_TYPE, #TARGET_TYPE, &Foundation::TypeCast<SOURCE_NAMESPACE::SOURCE_TYPE, TARGET_TYPE>);
-
+Foundation::STypeCastEntry TYPECAST_##SOURCE_NAMESPACE##_##SOURCE_TYPE_2_##TARGET_TYPE(#SOURCE_NAMESPACE"::"#SOURCE_TYPE, #TARGET_TYPE, &Foundation::TypeCast<SOURCE_NAMESPACE::SOURCE_TYPE, TARGET_TYPE>::Apply);
 
 #define IMPLEMENT_TYPE_CAST_T_T(SOURCE_TYPE, TARGET_TYPE) \
-Foundation::STypeCastEntry TYPECAST__##SOURCE_TYPE_2__##TARGET_TYPE(#SOURCE_TYPE, #TARGET_TYPE, &Foundation::TypeCast<SOURCE_TYPE, TARGET_TYPE>);
+Foundation::STypeCastEntry TYPECAST__##SOURCE_TYPE_2__##TARGET_TYPE(#SOURCE_TYPE, #TARGET_TYPE, &Foundation::TypeCast<SOURCE_TYPE, TARGET_TYPE>::Apply);
 
 //#define IMPLEMENT_TYPE_CAST(SOURCE_TYPE, TARGET_TYPE) \
-//Foundation::STypeCastEntry TYPECAST_##SOURCE_TYPE_2_##TARGET_TYPE(#SOURCE_TYPE, #TARGET_TYPE, &Foundation::DefaultTypeCast<SOURCE_TYPE, TARGET_TYPE>);
+//Foundation::STypeCastEntry TYPECAST_##SOURCE_TYPE_2_##TARGET_TYPE(#SOURCE_TYPE, #TARGET_TYPE, &Foundation::DefaultTypeCast<SOURCE_TYPE, TARGET_TYPE>::Apply);
 
 
 #endif /* FOUNDATION_TYPECAST_H_ */

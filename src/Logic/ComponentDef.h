@@ -33,6 +33,9 @@ class CComponentDef : public Foundation::CObject
 
 public:
   
+  CComponentDef() : m_pAux2(nullptr)
+  { /* ... */ }
+  
   static void Populate(Foundation::CClass* _pClass_);
 
 public:

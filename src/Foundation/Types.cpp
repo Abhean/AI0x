@@ -10,19 +10,25 @@ namespace Foundation
 {
 //----------------------------------------------
 template <>
-bool TypeCast<std::string, Foundation::CName>(void const* _pSource, void* pTarget_)
+struct TypeCast<std::string, Foundation::CName>
 {
-  *static_cast<CName*>(pTarget_) = Foundation::CName { *static_cast<const std::string*>(_pSource) };
-  return true;
-}
+  static bool Apply(void const* _pSource, void* pTarget_)
+  {
+    *static_cast<CName*>(pTarget_) = Foundation::CName { *static_cast<const std::string*>(_pSource) };
+    return true;
+  }
+};
 
 //----------------------------------------------
 template <>
-bool TypeCast<std::string, float>(void const* _pSource, void* pTarget_)
+struct TypeCast<std::string, float>
 {
-  *static_cast<float*>(pTarget_) = std::stof(static_cast<const std::string*>(_pSource)->c_str());
-  return true;
-}
+  static bool Apply(void const* _pSource, void* pTarget_)
+  {
+    *static_cast<float*>(pTarget_) = std::stof(static_cast<const std::string*>(_pSource)->c_str());
+    return true;
+  }
+};
 
 } // namespace Foundation
 

@@ -55,7 +55,7 @@ static CType const& Value() { return NAMESPACE::TYPE##_POINTER_Type::s_oType; }\
 
 #define IMPLEMENT_POINTER_TYPE(NAMESPACE, TYPE)\
 namespace NAMESPACE {\
-Foundation::CPointer  TYPE##_POINTER_Type::s_oType { Foundation::CNameLiteral(#TYPE"*"), sizeof(TYPE*), Foundation::CNameLiteral(""), &TYPE##_POINTER_Type::CreateInstance, Foundation::StaticType<TYPE>::Value() };\
+Foundation::CPointer  TYPE##_POINTER_Type::s_oType { Foundation::CNameLiteral(#NAMESPACE"::"#TYPE"*"), sizeof(TYPE*), Foundation::CNameLiteral(""), &TYPE##_POINTER_Type::CreateInstance, Foundation::StaticType<TYPE>::Value() };\
 }
 
 namespace Foundation
