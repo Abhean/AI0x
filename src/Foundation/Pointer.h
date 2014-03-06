@@ -31,7 +31,7 @@ namespace Foundation {\
 #define IMPLEMENT_PRIMITIVE_POINTER_TYPE(TYPE)\
 Foundation::CPointer TYPE##_POINTER_Type::s_oType { Foundation::CNameLiteral(#TYPE"*"), sizeof(TYPE*), Foundation::CNameLiteral(""), &TYPE##_POINTER_Type::CreateInstance, Foundation::StaticType<TYPE>::Value() };  
 
-/// DECLARE_POINTER_TYPE macro
+/// DECLARE_POINTER_TYPE 
 #define DECLARE_POINTER_TYPE(NAMESPACE, TYPE) \
 namespace NAMESPACE { \
 struct TYPE##_POINTER_Type\
@@ -53,9 +53,38 @@ static CType const& Value() { return NAMESPACE::TYPE##_POINTER_Type::s_oType; }\
 };\
 }
 
+/// IMPLEMENT_POINTER_TYPE 
 #define IMPLEMENT_POINTER_TYPE(NAMESPACE, TYPE)\
 namespace NAMESPACE {\
 Foundation::CPointer  TYPE##_POINTER_Type::s_oType { Foundation::CNameLiteral(#NAMESPACE"::"#TYPE"*"), sizeof(TYPE*), Foundation::CNameLiteral(""), &TYPE##_POINTER_Type::CreateInstance, Foundation::StaticType<TYPE>::Value() };\
+}
+
+/// DECLARE_POINTER_TYPE_EX
+#define DECLARE_POINTER_TYPE_EX(NAMESPACE, TYPE) \
+namespace NAMESPACE { \
+struct TYPE##_Type\
+{\
+static TYPE* CreateInstance() { return new TYPE(); }\
+static Foundation::CPointer s_oType;\
+};\
+}\
+namespace Foundation {\
+template <>\
+struct StaticType<NAMESPACE::TYPE> \
+{\
+static CType const& Value() { return NAMESPACE::TYPE##_Type::s_oType; }\
+};\
+template <>\
+struct StaticType<NAMESPACE::TYPE const> \
+{\
+static CType const& Value() { return NAMESPACE::TYPE##_Type::s_oType; }\
+};\
+}
+
+/// IMPLEMENT_POINTER_TYPE_EX
+#define IMPLEMENT_POINTER_TYPE_EX(NAMESPACE, TYPE, POINTED_TYPE_NAMESPACE, POINTED_TYPE)\
+namespace NAMESPACE {\
+Foundation::CPointer  TYPE##_Type::s_oType { Foundation::CNameLiteral(#NAMESPACE"::"#TYPE), sizeof(TYPE), Foundation::CNameLiteral(""), &TYPE##_Type::CreateInstance, Foundation::StaticType<POINTED_TYPE_NAMESPACE::POINTED_TYPE>::Value() };\
 }
 
 namespace Foundation

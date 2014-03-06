@@ -105,8 +105,8 @@ static CType const& Value() { return TYPE##_Type::s_oType; }\
 }
 
 /// IMPLEMENT_PRIMITIVE_TYPE_EX
-#define IMPLEMENT_PRIMITIVE_TYPE_EX(TYPE, CREATE_INSTANCE)\
-Foundation::CType TYPE##_Type::s_oType { static_cast<TYPE*>(nullptr), Foundation::CNameLiteral(#TYPE), Foundation::CNameLiteral(""), CREATE_INSTANCE };  
+#define IMPLEMENT_PRIMITIVE_TYPE_EX(TYPE, SIZE, CREATE_INSTANCE)\
+Foundation::CType TYPE##_Type::s_oType { Foundation::CNameLiteral(#TYPE), SIZE, Foundation::CNameLiteral(""), CREATE_INSTANCE };  
   
 namespace Foundation
 {

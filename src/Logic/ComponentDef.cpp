@@ -22,6 +22,9 @@ IMPLEMENT_POINTER_TYPE(Logic, SAux);
 IMPLEMENT_TYPE_CAST_NSPT_PT(Logic, SAux, void);
 IMPLEMENT_TYPE_CAST_PT_NSPT(void, Logic, SAux);
 
+IMPLEMENT_POINTER_TYPE_EX(Logic, TSAuxUniquePtr, Logic, SAux);
+// @TODO[egarcia]: Casts
+
 namespace Logic
 {
 

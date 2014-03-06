@@ -26,6 +26,7 @@ struct SAux
   std::string sVar;
 };
 
+typedef std::unique_ptr<SAux> TSAuxUniquePtr;
 
 class CComponentDef : public Foundation::CObject
 {
@@ -47,13 +48,14 @@ private:
   Foundation::CName m_Name;
   SAux m_Aux;
   SAux* m_pAux2;
-  std::unique_ptr<SAux> m_pAux3;
+  TSAuxUniquePtr m_pAux3;
 };
 
 } // namespace Logic
 
 DECLARE_CLASS_EX(Logic, SAux)
 DECLARE_POINTER_TYPE(Logic, SAux)
+DECLARE_POINTER_TYPE_EX(Logic, TSAuxUniquePtr)
 
 
 #endif // LOGIC_COMPONENTDEF_H
