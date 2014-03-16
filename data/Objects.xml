@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Logic::CComponentDef m_Name="Test" >
   <Logic::SAux ID="m_Aux" fVar="5.3" sVar="StringVar" />
+  <Logic::SAux ID="m_pAux2" fVar="8.1" sVar="StringVarPtr" />
+  <Logic::SAux ID="m_pAux3" fVar="11.1" sVar="StringVarUniquePtr" />
 </Logic::CComponentDef>
 
