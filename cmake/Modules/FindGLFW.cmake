@@ -31,22 +31,26 @@ FIND_PATH(GLFW_INCLUDE_DIRS GL/glfw.h DOC "Path to GLFW include directory."
   /usr/include/GL
   /usr/local/include/GL
   ${GLFW_ROOT_DIR}/include/ # added by ptr
- 
 )
 
+message(STATUS "GLFW_INCLUDE_DIRS: ${GLFW_INCLUDE_DIRS}")
+
 FIND_LIBRARY(GLFW_LIBRARIES DOC "Absolute path to GLFW library."
-  NAMES glfw GLFW.lib
+  NAMES glfw GLFW.lib libglfw.a
   HINTS
   $ENV{GLFW_ROOT}
-  PATH_SUFFIXES lib/win32 #For finding the library file under the root of the glfw expanded archive, typically on Windows.
+  PATH_SUFFIXES lib-mingw #For finding the library file under the root of the glfw expanded archive, typically on Windows.
   PATHS
   /usr/local/lib
   /usr/lib
-  ${GLFW_ROOT_DIR}/lib-msvc100/release # added by ptr
+  ${GLFW_ROOT_DIR}/lib-mingw # added by ptr
 )
 
+message(STATUS "GLFW_LIBRARIES: ${GLFW_LIBRARIES}")
+
+
 SET(GLFW_FOUND 0)
-IF(GLFW_LIBRARY AND GLFW_INCLUDE_DIR)
+IF(GLFW_LIBRARIES AND GLFW_INCLUDE_DIRS)
   SET(GLFW_FOUND 1)
   message(STATUS "GLFW found!")
-ENDIF(GLFW_LIBRARY AND GLFW_INCLUDE_DIR)
+ENDIF(GLFW_LIBRARIES AND GLFW_INCLUDE_DIRS)

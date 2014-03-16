@@ -1,6 +1,7 @@
-/src/Foundation/.Pointer.cpp.kate-swp
+CMakeLists.txt.user
 /src/Foundation/.directory
 /build/
 /.kdev4/
 /build_clang/
+*.kate-swp
 *~
