@@ -5,7 +5,7 @@
 namespace Foundation 
 {
   
-STypeCastEntry::STypeCastEntry(char const* _pszSourceType, char const* _pszTargetType, TTypeCast const& _fnCast) :
+STypeCastStaticListEntry::STypeCastStaticListEntry(char const* _pszSourceType, char const* _pszTargetType, TTypeCast const& _fnCast) :
   nSourceType(_pszSourceType),
   nTargetType(_pszTargetType),
   fnCast(_fnCast)
@@ -14,7 +14,7 @@ STypeCastEntry::STypeCastEntry(char const* _pszSourceType, char const* _pszTarge
   CTypeRegistry::StaticTypeCastListAdd(*this);
 }
 
-STypeCastEntry::STypeCastEntry(STypeCastEntry const& _oTypeCastEntry) :
+STypeCastStaticListEntry::STypeCastStaticListEntry(STypeCastStaticListEntry const& _oTypeCastEntry) :
   nSourceType(_oTypeCastEntry.nSourceType.GetString()),
   nTargetType(_oTypeCastEntry.nTargetType.GetString()),
   fnCast(_oTypeCastEntry.fnCast)

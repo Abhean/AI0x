@@ -7,6 +7,8 @@
 
 #include "Collection.h"
 
+IMPLEMENT_DYNAMIC_TYPE(Foundation::CCollection, Foundation::CType)
+
 namespace Foundation
 {
 

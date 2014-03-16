@@ -87,7 +87,7 @@ void CTypeRegistry::StaticTypeListAdd(CType& _oType_)
 
 
 ///
-void  CTypeRegistry::StaticTypeCastListAdd(STypeCastEntry& _oTypeCastEntry_)
+void  CTypeRegistry::StaticTypeCastListAdd(STypeCastStaticListEntry& _oTypeCastEntry_)
 {
   GetStaticTypeCastList().push_back(_oTypeCastEntry_);
 }

@@ -158,7 +158,6 @@ public:
 
 	// Types
 	typedef std::function<void* ()> TCreateInstance;
-	typedef std::function<bool (void const* _pSourceValue, CType const& _oTargetType, void* pTargetValue_)> TCastValue;
 
   // Safe casting
   template <typename TTarget, typename TSource>
@@ -205,7 +204,7 @@ public:
   
   ///
   template <typename T>
-  bool SetValue(void* pObject_, T _Value) const;
+  bool SetValue(void* pObject_, T const _Value) const;
   
 	///
 	bool operator==(CType const& _Type) const;
@@ -328,7 +327,7 @@ bool CType::GetValue(void const* _pValuePtr, T* pValue_) const
 
 ///
 template <typename T>
-bool CType::SetValue(void* pValuePtr_, T _Value) const
+bool CType::SetValue(void* pValuePtr_, T const _Value) const
 {
   bool bOk = false; // @REVIEW[egarcia]: Throw exception if invalid type?
   

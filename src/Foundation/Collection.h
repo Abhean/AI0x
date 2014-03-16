@@ -13,19 +13,28 @@
 namespace Foundation
 {
 
-class CCollection : public CType {
+class CCollection : public CType 
+{
+  DECLARE_DYNAMIC_TYPE(CCollection)
+
 public:
+  
+  typedef std::function<void (void* pCollection_, void const* _pElement)> TAddElement;
+  
+  
+  template <typename T>
+  CCollection(T* _pTypeDummy, CName const& _Name, TCreateInstance const& _fnCreateInstance) :
+    CType(_pTypeDummy, _Name, _fnCreateInstance),
+    m_fnAddElement(nullptr)
+  {
+    // ...
+  }
 
-	template <typename T>
-	CCollection(T* _pTypeDummy, CName const& _Name, TCreateInstance const& _fnCreateInstance) :
-		CType(_pTypeDummy, _Name, _fnCreateInstance)
-	{
-		// ...
-	}
-
-	virtual ~CCollection();
-        
-        
+  virtual ~CCollection();
+   
+private:
+  
+  TAddElement m_fnAddElement;      
 };
 
 } /* namespace Foundation */

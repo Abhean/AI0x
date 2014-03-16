@@ -32,7 +32,7 @@ public:
   CType*       GetTypeByName (CName const& _Name);
   
   static void  StaticTypeListAdd(CType& _oType_);
-  static void  StaticTypeCastListAdd(STypeCastEntry& _oTypeCastEntry_);
+  static void  StaticTypeCastListAdd(STypeCastStaticListEntry& _oTypeCastEntry_);
 
 private:
 
@@ -47,8 +47,8 @@ private:
   }
 
   // Static TypeCast List
-  typedef boost::intrusive::member_hook<STypeCastEntry, STypeCastEntry::TListHook, &STypeCastEntry::oListHook> TTypeCastListHookOption;
-  typedef boost::intrusive::slist<STypeCastEntry, TTypeCastListHookOption, boost::intrusive::cache_last<true>> TTypeCastList;
+  typedef boost::intrusive::member_hook<STypeCastStaticListEntry, STypeCastStaticListEntry::TListHook, &STypeCastStaticListEntry::oListHook> TTypeCastListHookOption;
+  typedef boost::intrusive::slist<STypeCastStaticListEntry, TTypeCastListHookOption, boost::intrusive::cache_last<true>> TTypeCastList;
 
   static TTypeCastList& GetStaticTypeCastList()
   {
